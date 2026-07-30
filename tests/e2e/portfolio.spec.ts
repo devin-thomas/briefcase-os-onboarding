@@ -19,7 +19,7 @@ test('fictional sample completes the portfolio-safe onboarding flow', async ({ p
   page.on('pageerror', (error) => consoleErrors.push(error.message));
 
   await page.goto('/');
-  await expect(page).toHaveTitle(/BriefcaseOS Onboarding/);
+  await expect(page).toHaveTitle(/BriefcaseOS.*candidate onboarding/i);
   await expect(page.getByRole('heading', { name: 'Make it feel like yours.' })).toBeVisible();
   await expect(page.getByText('Your candidate signal')).toBeVisible();
   await expectNoSeriousAccessibilityViolations(page);
