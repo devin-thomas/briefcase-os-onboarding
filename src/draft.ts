@@ -8,7 +8,7 @@ const asStringArray = (value: unknown, fallback: string[] = []) => Array.isArray
 const asBoolean = (value: unknown, fallback: boolean) => typeof value === 'boolean' ? value : fallback;
 const asNumber = (value: unknown, fallback: number) => typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 const clamp = (value: unknown, fallback: number) => Math.min(100, Math.max(0, asNumber(value, fallback)));
-const enumValue = <T extends string>(value: unknown, allowed: readonly T[], fallback: T): T => allowed.includes(value as T) ? value as T : fallback;
+const enumValue = <T extends string | number>(value: unknown, allowed: readonly T[], fallback: T): T => allowed.includes(value as T) ? value as T : fallback;
 
 function migrateParsedResume(value: unknown, fallback: ParsedResume): ParsedResume {
   const parsed = asRecord(value);
