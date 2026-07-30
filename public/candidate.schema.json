@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:briefcaseos:schema:candidate:2.0",
+  "title": "BriefcaseOS Candidate Decision Model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "id", "createdAt", "updatedAt", "identity", "professionalLinks", "canonicalProfile", "positioning", "preferences", "scoringPolicy", "packagePolicy", "authorizationPolicy", "onboarding", "artifacts"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": "2.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "email", "phone"],
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" }
+      }
+    },
+    "professionalLinks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["linkedIn", "github", "portfolio"],
+      "properties": {
+        "linkedIn": { "type": "string" },
+        "github": { "type": "string" },
+        "portfolio": { "type": "string" }
+      }
+    },
+    "canonicalProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workHistory", "education", "skills"],
+      "properties": {
+        "workHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "company", "title", "dates", "highlights", "provenance", "allowedInApplications"],
+            "properties": {
+              "id": { "type": "string" },
+              "company": { "type": "string" },
+              "title": { "type": "string" },
+              "dates": { "type": "string" },
+              "highlights": { "$ref": "#/$defs/stringArray" },
+              "provenance": { "$ref": "#/$defs/provenance" },
+              "allowedInApplications": { "type": "boolean" }
+            }
+          }
+        },
+        "education": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["description", "provenance"],
+            "properties": {
+              "description": { "type": "string" },
+              "provenance": { "$ref": "#/$defs/provenance" }
+            }
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "provenance"],
+            "properties": {
+              "name": { "type": "string" },
+              "provenance": { "$ref": "#/$defs/provenance" }
+            }
+          }
+        }
+      }
+    },
+    "positioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["headlines", "summaries", "strategyNotes"],
+      "properties": {
+        "headlines": { "$ref": "#/$defs/stringArray" },
+        "summaries": { "$ref": "#/$defs/stringArray" },
+        "strategyNotes": { "type": "string" }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["targetRoleFamilies", "bridgeRoleFamilies", "excludedRoleFamilies", "desiredResponsibilities", "avoidedResponsibilities", "minimumBaseAnnual", "currentLocation", "acceptableLocations", "workArrangements", "latestShiftEnd", "unknownBehavior", "workAuthorization"],
+      "properties": {
+        "targetRoleFamilies": { "$ref": "#/$defs/stringArray" },
+        "bridgeRoleFamilies": { "$ref": "#/$defs/stringArray" },
+        "excludedRoleFamilies": { "$ref": "#/$defs/stringArray" },
+        "desiredResponsibilities": { "$ref": "#/$defs/stringArray" },
+        "avoidedResponsibilities": { "$ref": "#/$defs/stringArray" },
+        "minimumBaseAnnual": { "type": ["integer", "null"], "minimum": 0 },
+        "currentLocation": { "type": "string" },
+        "acceptableLocations": { "$ref": "#/$defs/stringArray" },
+        "workArrangements": { "type": "array", "uniqueItems": true, "items": { "enum": ["onsite", "hybrid", "remote"] } },
+        "latestShiftEnd": { "type": "string", "pattern": "^$|^([01]\\d|2[0-3]):[0-5]\\d$" },
+        "unknownBehavior": { "enum": ["neutral", "review", "slight-penalty", "reject"] },
+        "workAuthorization": { "type": "string" }
+      }
+    },
+    "scoringPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rankingObjective", "priorities", "hardFiltersApplyBeforeScoring"],
+      "properties": {
+        "rankingObjective": { "enum": ["best-fit", "interview-probability", "compensation", "career-trajectory", "balanced"] },
+        "priorities": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compensation", "flexibility", "growth", "workLifeBalance"],
+          "properties": {
+            "compensation": { "$ref": "#/$defs/percentage" },
+            "flexibility": { "$ref": "#/$defs/percentage" },
+            "growth": { "$ref": "#/$defs/percentage" },
+            "workLifeBalance": { "$ref": "#/$defs/percentage" }
+          }
+        },
+        "hardFiltersApplyBeforeScoring": { "const": true }
+      }
+    },
+    "packagePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resumeMaxPages", "tone", "claimGuardrails"],
+      "properties": {
+        "resumeMaxPages": { "enum": [1, 2, 3] },
+        "tone": { "type": "string" },
+        "claimGuardrails": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "authorizationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retrieveJobs", "scoreJobs", "draftPackages", "modifyFiles", "contactPeople", "submitApplications"],
+      "properties": {
+        "retrieveJobs": { "type": "boolean" },
+        "scoreJobs": { "type": "boolean" },
+        "draftPackages": { "type": "boolean" },
+        "modifyFiles": { "type": "boolean" },
+        "contactPeople": { "type": "boolean" },
+        "submitApplications": { "type": "boolean" }
+      }
+    },
+    "onboarding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uncertainties", "decisions", "status"],
+      "properties": {
+        "uncertainties": { "$ref": "#/$defs/stringArray" },
+        "decisions": { "$ref": "#/$defs/stringArray" },
+        "status": { "enum": ["in-progress", "ready-for-review"] }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "fileName", "mimeType", "sizeBytes", "addedAt", "sourceRef", "embedded"],
+        "properties": {
+          "id": { "type": "string" },
+          "fileName": { "type": "string" },
+          "mimeType": { "type": "string" },
+          "sizeBytes": { "type": "integer", "minimum": 0 },
+          "addedAt": { "type": "string", "format": "date-time" },
+          "sourceRef": { "type": "string", "pattern": "^local-upload://" },
+          "embedded": { "const": false }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "stringArray": { "type": "array", "items": { "type": "string" } },
+    "percentage": { "type": "number", "minimum": 0, "maximum": 100 },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "confidence"],
+      "properties": {
+        "source": { "const": "resume" },
+        "confidence": { "enum": ["low", "medium", "high"] }
+      }
+    }
+  }
+}

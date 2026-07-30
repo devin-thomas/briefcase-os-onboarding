@@ -1,0 +1,44 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run rendered desktop and mobile QA
+        run: npm run test:e2e
+      - name: Run public release audit
+        run: npm run audit:public
+      - name: Generate dependency license inventory
+        run: npm run licenses
+      - name: Upload release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-evidence
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            package-lock.json
+            artifacts/portfolio
+            artifacts/playwright
+            artifacts/release
