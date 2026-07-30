@@ -30,7 +30,7 @@ test('fictional sample completes the portfolio-safe onboarding flow', async ({ p
   await expect(page.getByRole('heading', { name: 'Start with evidence.' })).toBeVisible();
   await page.getByRole('button', { name: 'Try the sample profile' }).click();
   await expect(page.getByText('Review what we found')).toBeVisible();
-  await expect(page.getByDisplayValue('Jordan Lee')).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Name', exact: true })).toHaveValue('Jordan Lee');
   await expect(page.getByText('8 core strengths')).toBeVisible();
   await expect(page.getByText('Fictional sample data for portfolio demonstration.')).toBeVisible();
   await expectNoSeriousAccessibilityViolations(page);
