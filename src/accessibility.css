@@ -4,6 +4,14 @@
   color: #fff;
 }
 
+.tag-chip {
+  color: var(--text);
+}
+
+.tag-chip button {
+  color: var(--text);
+}
+
 @media (prefers-contrast: more) {
   :root {
     --muted: #aeb8c6;
