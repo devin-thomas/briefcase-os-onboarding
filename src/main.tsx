@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { migrateStoredCandidateDraft } from './storageMigration';
 import './styles.css';
+import './accessibility.css';
 
 try {
   migrateStoredCandidateDraft(window.localStorage);
