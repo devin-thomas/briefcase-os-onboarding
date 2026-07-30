@@ -62,7 +62,12 @@ test('fictional sample completes the portfolio-safe onboarding flow', async ({ p
 
   await page.getByRole('button', { name: 'Clear local data and restart' }).click();
   await expect(page.getByRole('heading', { name: 'Make it feel like yours.' })).toBeVisible();
-  const storedKeys = await page.evaluate(() => Object.keys(localStorage).filter((key) => key.startsWith('briefcaseos.')));
-  expect(storedKeys).toEqual([]);
+  const storageState = await page.evaluate(() => ({
+    candidateKeys: Object.keys(localStorage).filter((key) => /candidate-draft|onboarding-step/.test(key)),
+    preferences: JSON.parse(localStorage.getItem('briefcaseos.demo.preferences.v1') || '{}') as Record<string, unknown>,
+  }));
+  expect(storageState.candidateKeys).toEqual([]);
+  expect(Object.keys(storageState.preferences).sort()).toEqual(['accent', 'theme']);
+  expect(JSON.stringify(storageState.preferences)).not.toContain('Jordan Lee');
   expect(consoleErrors).toEqual([]);
 });
