@@ -93,6 +93,7 @@ GitHub Actions additionally uses the committed lockfile, installs Chromium, capt
 - [Architecture](docs/architecture.md)
 - [Privacy model](docs/privacy.md)
 - [Clean-room provenance](docs/clean-room-note.md)
+- [Transition status](docs/transition-status.md)
 - [Release evidence](docs/release-evidence.md)
 - [Dependency licenses](docs/dependency-licenses.md)
 - [Security policy](SECURITY.md)
