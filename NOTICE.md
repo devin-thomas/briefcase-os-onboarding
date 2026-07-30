@@ -1,9 +1,11 @@
-# Ownership, credential, and third-party notices
+# Ownership and third-party notices
 
-BriefcaseOS, the onboarding experience, its original copy, and its visual identity are owned by Devin Thomas. Uppercut Labs is an unincorporated working identity solely controlled by the same owner and does not represent a separate rights holder for this project.
+BriefcaseOS, this onboarding experience, its original copy, and its visual identity are owned by Devin Thomas. No separate organization or third party holds project rights.
 
-A previously used Gemini development credential was revoked by the owner on July 30, 2026. No active credential or secret material is included in this repository or required by the deterministic public demo.
+This project uses third-party packages distributed under their respective licenses, including React, Vite, Express, Geist, Lucide, Motion, canvas-confetti, js-yaml, TypeScript, tsx, esbuild, Playwright, and axe-core.
 
-This project uses third-party packages distributed under their respective licenses, including React, Vite, Express, Geist, Lucide, Motion, canvas-confetti, js-yaml, TypeScript, tsx, and esbuild.
+The committed dependency lockfile and generated license inventory are the release source of truth for third-party package versions and licenses.
 
-Review the dependency lockfile and installed package license metadata before a tagged release.
+## Credential retirement
+
+The previously used Gemini development credential was revoked by the owner on July 30, 2026. No replacement credential is stored in or required by the public deterministic demo.
