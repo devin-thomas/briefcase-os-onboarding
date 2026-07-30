@@ -1,0 +1,36 @@
+name: Patch progress accessibility
+
+on:
+  push:
+    branches: [agent/clean-room-foundation]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/clean-room-foundation
+      - name: Add persistent accessible names
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('src/App.tsx')
+          text = path.read_text()
+          old = """       return <button key={label} className={step === number ? 'active' : passed ? 'passed' : ''} onClick={() => setStep(number)}><span>{passed ? <Check /> : number}</span><strong>{label}</strong></button>;"""
+          new = """       return <button type=\"button\" key={label} aria-label={`${label}${passed ? ', complete' : step === number ? ', current step' : ''}`} aria-current={step === number ? 'step' : undefined} className={step === number ? 'active' : passed ? 'passed' : ''} onClick={() => setStep(number)}><span aria-hidden=\"true\">{passed ? <Check /> : number}</span><strong>{label}</strong></button>;"""
+          if old not in text:
+              raise SystemExit('Expected progress button source was not found')
+          path.write_text(text.replace(old, new, 1))
+          PY
+      - name: Commit component fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/App.tsx
+          git diff --cached --quiet || git commit -m "Preserve progress labels for assistive technology"
+          git diff --cached --quiet && git push
