@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:briefcaseos:schema:candidate:2.0",
+  "title": "BriefcaseOS Candidate Decision Model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "id", "createdAt", "updatedAt", "identity", "professionalLinks", "canonicalProfile", "positioning", "preferences", "scoringPolicy", "packagePolicy", "authorizationPolicy", "onboarding", "artifacts"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": "2.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "identity": { "type": "object", "required": ["name", "email", "phone"], "properties": { "name": { "type": "string" }, "email": { "type": "string" }, "phone": { "type": "string" } }, "additionalProperties": false },
+    "professionalLinks": { "type": "object" },
+    "canonicalProfile": { "type": "object" },
+    "positioning": { "type": "object" },
+    "preferences": { "type": "object" },
+    "scoringPolicy": { "type": "object" },
+    "packagePolicy": { "type": "object" },
+    "authorizationPolicy": { "type": "object" },
+    "onboarding": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "object", "required": ["id", "fileName", "mimeType", "sizeBytes", "addedAt", "sourceRef", "embedded"], "properties": { "id": { "type": "string" }, "fileName": { "type": "string" }, "mimeType": { "type": "string" }, "sizeBytes": { "type": "integer" }, "addedAt": { "type": "string" }, "sourceRef": { "type": "string" }, "embedded": { "const": false } }, "additionalProperties": false } }
+  }
+}
