@@ -1,0 +1,17 @@
+.primary-action {
+  background: color-mix(in srgb, var(--accent) 68%, #000);
+  border-color: color-mix(in srgb, var(--accent) 74%, #000);
+  color: #fff;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --muted: #aeb8c6;
+    --line: #46515f;
+  }
+
+  :root[data-theme='light'] {
+    --muted: #4d5968;
+    --line: #aeb9c5;
+  }
+}
