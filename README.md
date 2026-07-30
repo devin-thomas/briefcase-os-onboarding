@@ -77,7 +77,7 @@ npm run test:e2e     # desktop/mobile journey and accessibility scans
 npm run licenses     # regenerate dependency license evidence
 ```
 
-GitHub Actions additionally uses the committed lockfile, installs Chromium, captures portfolio screenshots, checks responsive overflow and console errors, and uploads release evidence. The latest release audit covered 170 installed packages with zero unknown licenses.
+GitHub Actions additionally uses the committed lockfile, installs Chromium, captures portfolio screenshots, checks responsive overflow and console errors, and uploads release evidence. The release audit covers 170 installed packages with zero unknown licenses.
 
 ## Privacy boundaries
 
