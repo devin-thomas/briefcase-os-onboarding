@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   evidence:
+    # One-time workflow: commits only verified screenshots and the generated license report.
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
