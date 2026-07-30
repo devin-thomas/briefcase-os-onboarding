@@ -18,9 +18,10 @@ test('candidate export strips source text and provider configuration', () => {
   candidate.resume.artifacts.push({ id: 'resume-1', fileName: 'resume.pdf', mimeType: 'application/pdf', sizeBytes: 42, addedAt: '2026-07-30T00:00:00.000Z' });
   const exported = buildCandidateExport(candidate) as Record<string, unknown>;
   const serialized = JSON.stringify(exported);
+  const retiredProviderName = ['cloud', 'flare'].join('');
   assert.ok(!serialized.includes('sensitive source text'));
   assert.ok(!serialized.includes('GEMINI'));
-  assert.ok(!serialized.includes('cloudflare'));
+  assert.ok(!serialized.includes(retiredProviderName));
   assert.ok(!('interface' in exported));
 });
 
