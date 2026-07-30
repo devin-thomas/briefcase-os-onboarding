@@ -2,7 +2,7 @@ import confetti from 'canvas-confetti';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, ArrowRight, BriefcaseBusiness, Check, CircleUserRound, Clipboard, Download, FileJson, FileText, MapPin, Moon, Palette, Printer, Save, Sun, Target, Trash2, Upload } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import yaml from 'js-yaml';
+import { dump } from 'js-yaml';
 import { buildCandidateExport, createCandidate, parseList, SAMPLE_RESUME, type CandidateProfile, type CapabilityResponse, type ResumeExtractionRequest, type ResumeExtractionResult, type WorkArrangement } from './domain';
 
 const STEPS = ['Interface & basics', 'Resume', 'Career targets', 'Locations & restrictions', 'Agent intelligence'];
@@ -213,7 +213,7 @@ function Completion({ candidate, clearLocalData }: { candidate: CandidateProfile
   const [view, setView] = useState<'resume' | 'yaml'>('resume');
   const [copied, setCopied] = useState(false);
   const exported = useMemo(() => buildCandidateExport(candidate), [candidate]);
-  const yamlText = useMemo(() => yaml.dump(exported, { noRefs: true, lineWidth: 100 }), [exported]);
+  const yamlText = useMemo(() => dump(exported, { noRefs: true, lineWidth: 100 }), [exported]);
   const stem = (candidate.identity.name || 'candidate').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'candidate';
   useEffect(() => {
     if (!reduced) void confetti({ particleCount: 55, spread: 75, origin: { y: .18 }, colors: [candidate.interface.accent, '#71d3a2', '#e1654f'] });
