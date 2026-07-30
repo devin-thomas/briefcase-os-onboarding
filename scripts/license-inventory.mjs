@@ -10,17 +10,16 @@ const lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
 const direct = new Set([...Object.keys(packageJson.dependencies || {}), ...Object.keys(packageJson.devDependencies || {})]);
 const rows = [];
 
-for (const [packagePath, metadata] of Object.entries(lock.packages || {})) {
+for (const packagePath of Object.keys(lock.packages || {})) {
   if (!packagePath.startsWith('node_modules/')) continue;
   const manifestPath = path.join(root, packagePath, 'package.json');
-  let manifest = {};
-  if (fs.existsSync(manifestPath)) manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  const name = manifest.name || packagePath.replace(/^.*node_modules\//, '');
+  if (!fs.existsSync(manifestPath)) continue;
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   rows.push({
-    name,
-    version: manifest.version || metadata.version || 'unknown',
-    license: manifest.license || metadata.license || 'UNKNOWN',
-    direct: direct.has(name),
+    name: manifest.name || packagePath.replace(/^.*node_modules\//, ''),
+    version: manifest.version || 'unknown',
+    license: manifest.license || 'UNKNOWN',
+    direct: direct.has(manifest.name),
     repository: typeof manifest.repository === 'string' ? manifest.repository : manifest.repository?.url || '',
   });
 }
@@ -34,7 +33,7 @@ fs.writeFileSync(path.join(outputDirectory, 'dependency-licenses.json'), JSON.st
 fs.writeFileSync(path.join(outputDirectory, 'dependency-licenses.md'), [
   '# Dependency license inventory',
   '',
-  `Generated from the committed npm lockfile. Packages: ${unique.length}. Unknown licenses: ${unknown.length}.`,
+  `Generated from the committed npm lockfile and installed package manifests. Packages: ${unique.length}. Unknown licenses: ${unknown.length}.`,
   '',
   '| Package | Version | Scope | License |',
   '| --- | --- | --- | --- |',
@@ -46,4 +45,4 @@ if (unknown.length) {
   console.error(`Unknown dependency licenses: ${unknown.map((row) => `${row.name}@${row.version}`).join(', ')}`);
   process.exit(1);
 }
-console.log(`Wrote license inventory for ${unique.length} packages.`);
+console.log(`Wrote license inventory for ${unique.length} installed packages.`);
