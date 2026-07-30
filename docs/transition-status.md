@@ -21,8 +21,10 @@ The clean-room transition was planned as eighteen dependency-linked tickets. Thi
 | BCO-015 | Add unit, rendered, responsive, and accessibility tests | Complete |
 | BCO-016 | Add locked CI, public-source auditing, and release safeguards | Complete |
 | BCO-017 | Add portfolio documentation, screenshots, and release evidence | Complete |
-| BCO-018 | Owner publication signoff and merge | Awaiting owner approval |
+| BCO-018 | Owner publication signoff and merge | Complete |
 
-## Technical release condition
+## Publication record
 
-BCO-018 may proceed only after the final branch revision passes the permanent `Verify` workflow and a cold comparison against `main` confirms that no temporary write-enabled workflow or private material remains.
+Owner publication approval was received on July 30, 2026. Pull request #1 was marked ready and squash-merged into `main` as commit `12aa24469f66ca616e04e6c1af307b73c908e9f3`.
+
+The final pre-merge branch revision passed the permanent `Verify` workflow and the cold comparison confirmed that no temporary write-enabled workflow or private source material remained.
