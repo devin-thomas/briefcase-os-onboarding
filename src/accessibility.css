@@ -9,6 +9,15 @@
   color: var(--text);
 }
 
+.yaml-view {
+  max-height: none;
+  overflow: visible;
+}
+
+.yaml-view i {
+  color: #8f9baa;
+}
+
 @media (max-width: 740px) {
   .progress-rail button strong {
     display: block;
