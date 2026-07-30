@@ -3,8 +3,8 @@ import path from 'node:path';
 import { buildCandidateExport, createCandidate, SAMPLE_EXTRACTION } from '../src/domain';
 
 const root = process.cwd();
-const scanRoots = ['src', 'server', 'public', 'tests', 'dist'];
-const standaloneFiles = ['package.json', 'vite.config.ts', 'playwright.config.ts', '.env.example'];
+const scanRoots = ['.github', 'docs', 'src', 'server', 'public', 'tests', 'dist'];
+const standaloneFiles = ['README.md', 'NOTICE.md', 'package.json', 'index.html', 'vite.config.ts', 'playwright.config.ts', 'tsconfig.json', '.env.example'];
 const forbiddenNames = ['wrangler.toml', 'wrangler.json', 'wrangler.jsonc'];
 const forbiddenPatterns = [
   ['briefcase', '-onboarding-internal'].join(''),
