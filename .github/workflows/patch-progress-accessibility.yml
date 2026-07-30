@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   patch:
+    # This workflow deletes itself after its single source patch is verified.
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
