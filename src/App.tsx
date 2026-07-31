@@ -131,7 +131,7 @@ function ResumeStep({ candidate, update, capabilities }: StepProps & { capabilit
   const run = async (payload: ResumeExtractionRequest) => {
     update((current) => ({ ...current, resume: { ...current.resume, status: 'parsing', message: 'Structuring candidate evidence…' } }));
     try {
-      const result = await requestExtraction(payload);
+      const result = await requestExtraction({ ...payload, consentGiven: payload.sampleId ? undefined : consented });
       update((current) => ({
         ...current,
         identity: { ...current.identity, ...result.identity },

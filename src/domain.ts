@@ -74,6 +74,7 @@ export interface CandidateProfile {
 export interface ResumeExtractionRequest {
   sampleId?: string;
   typedResume: string;
+  consentGiven?: boolean;
   artifacts: Array<ResumeArtifactMeta & { dataBase64?: string; plainText?: string }>;
 }
 

@@ -44,7 +44,7 @@ interface GeminiBody { candidates?: Array<{ content?: { parts?: Array<{ text?: s
 export class GeminiResumeProvider implements ResumeExtractionProvider {
   readonly id = 'gemini';
   readonly mode = 'live' as const;
-  constructor(private readonly apiKey: string, private readonly model: string) {
+  constructor(private readonly apiKey: string, private readonly model: string, private readonly timeoutMs = 55_000) {
     if (!apiKey) throw new Error('Live extraction requires a server-side GEMINI_API_KEY.');
   }
 
@@ -56,7 +56,7 @@ export class GeminiResumeProvider implements ResumeExtractionProvider {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(this.model)}:generateContent`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': this.apiKey },
       body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }, ...inline] }], generationConfig: { responseMimeType: 'application/json', maxOutputTokens: 2400 } }),
-      signal: AbortSignal.timeout(55_000),
+      signal: AbortSignal.timeout(this.timeoutMs),
     });
     const body = await response.json() as GeminiBody;
     if (!response.ok) throw new Error('Live resume extraction is unavailable. Your draft is still safe.');

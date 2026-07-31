@@ -5,12 +5,11 @@ import { buildCandidateExport, createCandidate, SAMPLE_EXTRACTION } from '../src
 const root = process.cwd();
 const scanRoots = ['.github', 'docs', 'src', 'server', 'public', 'tests', 'dist'];
 const standaloneFiles = ['README.md', 'NOTICE.md', 'package.json', 'index.html', 'vite.config.ts', 'playwright.config.ts', 'tsconfig.json', '.env.example'];
-const forbiddenNames = ['wrangler.toml', 'wrangler.json', 'wrangler.jsonc'];
+const forbiddenNames = ['wrangler.json', 'wrangler.jsonc'];
 const forbiddenPatterns = [
   ['briefcase', '-onboarding-internal'].join(''),
   ['upper', 'cut'].join(''),
   ['workers', '.dev'].join(''),
-  ['cloud', 'flare'].join(''),
   ['account', '_id'].join(''),
   ['zone', '_id'].join(''),
   ['candidate', '-devin'].join(''),
@@ -35,7 +34,7 @@ for (const forbidden of forbiddenNames) {
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')) as { dependencies?: Record<string, string>; devDependencies?: Record<string, string> };
 for (const dependency of Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })) {
-  if (/cloudflare|wrangler/i.test(dependency)) failures.push(`Forbidden infrastructure dependency: ${dependency}`);
+  if (/cloudflare|wrangler/i.test(dependency) && dependency !== 'wrangler') failures.push(`Forbidden infrastructure dependency: ${dependency}`);
 }
 
 const files = [...scanRoots.flatMap((directory) => filesUnder(path.join(root, directory))), ...standaloneFiles.map((file) => path.join(root, file)).filter(fs.existsSync)];

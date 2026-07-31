@@ -5,17 +5,17 @@
 - Source repository: `devin-thomas/briefcase-os-onboarding`
 - Starting main commit: `ee33fbef5a9df702860a05c8d69bbc58cab54f53`
 - Working branch: `cloudflare`
-- Cloudflare account: `Uppercut Labs` (`f81d8a09a3b225b740c17f5a39f6cf80`)
-- Cloudflare zone: `devthomas.site` (`ecab0263f40b292c8066af56431ce826`)
+- Cloudflare account: connected account verified read-only
+- Cloudflare zone: active `devthomas.site` zone verified read-only
 - Intended Pages project: not created; preview path to be selected after adapter work
 - Production domain: `https://briefcase.devthomas.site`
 
 | Stage | Status | Commit | Evidence / notes |
 |---|---|---|---|
 | 01 Baseline and safety | Complete | pending | `01_BASELINE_REPORT.md`; verify, E2E, licenses, and public audit passed |
-| 02 Runtime decomposition | In progress | | Express responsibilities mapped; shared service extraction next |
-| 03 Cloudflare adapter | Not started | | |
-| 04 Local and preview validation | Not started | | |
+| 02 Runtime decomposition | Complete | pending | `02_RUNTIME_MAP.md`; shared service and Express parity tests pass |
+| 03 Cloudflare adapter | Complete | pending | `03_CLOUDFLARE_ADAPTER_REPORT.md`; local Wrangler route checks pass |
+| 04 Local and preview validation | In progress | | Local Pages runtime passes; preview project/deployment pending |
 | 05 Gemini live mode | Not started | | |
 | 06 Production release | Not started | | Existing target is Worker-backed; no production cutover performed |
 | 07 Portfolio integration | Not started | | |
