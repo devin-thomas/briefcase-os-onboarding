@@ -111,7 +111,7 @@
     "scoringPolicy": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["rankingObjective", "priorities", "hardFiltersApplyBeforeScoring"],
+      "required": ["rankingObjective", "priorities", "priorityLabels", "hardFiltersApplyBeforeScoring"],
       "properties": {
         "rankingObjective": { "enum": ["best-fit", "interview-probability", "compensation", "career-trajectory", "balanced"] },
         "priorities": {
@@ -123,6 +123,17 @@
             "flexibility": { "$ref": "#/$defs/percentage" },
             "growth": { "$ref": "#/$defs/percentage" },
             "workLifeBalance": { "$ref": "#/$defs/percentage" }
+          }
+        },
+        "priorityLabels": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compensation", "flexibility", "growth", "workLifeBalance"],
+          "properties": {
+            "compensation": { "type": "string", "minLength": 1 },
+            "flexibility": { "type": "string", "minLength": 1 },
+            "growth": { "type": "string", "minLength": 1 },
+            "workLifeBalance": { "type": "string", "minLength": 1 }
           }
         },
         "hardFiltersApplyBeforeScoring": { "const": true }

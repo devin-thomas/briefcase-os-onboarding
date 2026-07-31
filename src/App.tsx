@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, ArrowRight, BriefcaseBusiness, Check, CircleUserRound, Clipboard, Download, FileJson, FileText, MapPin, Moon, Palette, Printer, Save, Sun, Target, Trash2, Upload } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { dump } from 'js-yaml';
-import { buildCandidateExport, createCandidate, parseList, SAMPLE_RESUME, type CandidateProfile, type CapabilityResponse, type ResumeExtractionRequest, type ResumeExtractionResult, type WorkArrangement } from './domain';
+import { buildCandidateExport, createCandidate, parseList, SAMPLE_RESUME, type CandidateProfile, type CapabilityResponse, type PriorityKey, type ResumeExtractionRequest, type ResumeExtractionResult, type WorkArrangement } from './domain';
 
 const STEPS = ['Interface & basics', 'Resume', 'Career targets', 'Locations & restrictions', 'Agent intelligence'];
 const DRAFT_KEY = 'briefcaseos.demo.candidate-draft.v1';
@@ -197,11 +197,39 @@ function Logistics({ candidate, update }: StepProps) {
   </section>;
 }
 
+const PRIORITY_KEYS: PriorityKey[] = ['compensation', 'flexibility', 'growth', 'workLifeBalance'];
+const PRIORITY_COLORS = ['#2f80ed', '#18a6b8', '#71d3a2', '#d8952d'] as const;
+
+function PriorityChart({ priorities, labels }: { priorities: CandidateProfile['agent']['priorities']; labels: CandidateProfile['agent']['priorityLabels'] }) {
+  const total = PRIORITY_KEYS.reduce((sum, key) => sum + priorities[key], 0);
+  const circumference = 2 * Math.PI * 42;
+  let offset = 0;
+  return <div className="priority-chart">
+    <div className="priority-chart__visual">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Normalized representation of your four priorities">
+        <circle className="priority-chart__track" cx="50" cy="50" r="42" />
+        {PRIORITY_KEYS.map((key, index) => {
+          const share = total > 0 ? priorities[key] / total : 0.25;
+          const segmentOffset = offset;
+          offset += share;
+          return <circle key={key} className="priority-chart__segment" cx="50" cy="50" r="42" stroke={PRIORITY_COLORS[index]} strokeDasharray={[share * circumference, circumference].join(' ')} strokeDashoffset={-segmentOffset * circumference} />;
+        })}
+        <text x="50" y="48" textAnchor="middle" className="priority-chart__total">{total}</text>
+        <text x="50" y="59" textAnchor="middle" className="priority-chart__caption">points</text>
+      </svg>
+    </div>
+    <div className="priority-chart__legend">{PRIORITY_KEYS.map((key, index) => {
+      const share = total > 0 ? priorities[key] / total : 0;
+      return <button type="button" className="priority-chart__item" key={key} onClick={() => document.getElementById('priority-range-' + key)?.focus()}><span className="priority-chart__swatch" style={{ backgroundColor: PRIORITY_COLORS[index] }} /><span>{labels[key]}</span><strong>{Math.round(share * 100)}%</strong></button>;
+    })}</div>
+  </div>;
+}
+
 function AgentStep({ candidate, update }: StepProps) {
   return <section className="step-content"><Heading n="05" title="Tune the agent’s judgment." text="Define ranking priorities, claim guardrails, and actions that require approval." />
     <div className="form-grid two"><label>Ranking objective<select value={candidate.agent.rankingObjective} onChange={(event) => update((current) => ({ ...current, agent: { ...current.agent, rankingObjective: event.target.value as CandidateProfile['agent']['rankingObjective'] } }))}><option value="balanced">Balanced strategy</option><option value="best-fit">Best qualification fit</option><option value="interview-probability">Highest interview probability</option><option value="compensation">Highest compensation</option><option value="career-trajectory">Best career trajectory</option></select></label><label>Resume length<select value={candidate.agent.resumeMaxPages} onChange={(event) => update((current) => ({ ...current, agent: { ...current.agent, resumeMaxPages: Number(event.target.value) as 1 | 2 | 3 } }))}><option value="1">1 page</option><option value="2">2 pages</option><option value="3">3 pages</option></select></label></div>
-    <fieldset className="priority-field"><legend>What matters most?</legend>{Object.entries(candidate.agent.priorities).map(([key, value]) => <label className="range-row" key={key}><span>{key.replace(/([A-Z])/g, ' $1')}<output>{value}</output></span><input type="range" min="0" max="100" value={value} onChange={(event) => update((current) => ({ ...current, agent: { ...current.agent, priorities: { ...current.agent.priorities, [key]: Number(event.target.value) } } }))} /></label>)}</fieldset>
-    <Field label="Preferred package tone" value={candidate.agent.tone} onChange={(value) => update((current) => ({ ...current, agent: { ...current.agent, tone: value } }))} />
+    <fieldset className="priority-field"><legend>What matters most?</legend><div className="priority-editor"><div className="priority-sliders">{PRIORITY_KEYS.map((key, index) => <div className="priority-row" key={key}><div className="priority-row__head"><label htmlFor={'priority-label-' + key}>Choice {index + 1}</label><output>{candidate.agent.priorities[key]}</output></div><input id={'priority-label-' + key} className="priority-label" value={candidate.agent.priorityLabels[key]} onChange={(event) => update((current) => ({ ...current, agent: { ...current.agent, priorityLabels: { ...current.agent.priorityLabels, [key]: event.target.value } } }))} aria-label={'Name priority choice ' + (index + 1)} /><input id={'priority-range-' + key} type="range" min="0" max="100" value={candidate.agent.priorities[key]} onChange={(event) => update((current) => ({ ...current, agent: { ...current.agent, priorities: { ...current.agent.priorities, [key]: Number(event.target.value) } } }))} aria-label={'Weight for ' + candidate.agent.priorityLabels[key]} /></div>)}</div><PriorityChart priorities={candidate.agent.priorities} labels={candidate.agent.priorityLabels} /></div></fieldset>
+    <Field label="Preferred tone for your résumés and cover letters" value={candidate.agent.tone} onChange={(value) => update((current) => ({ ...current, agent: { ...current.agent, tone: value } }))} />
     <ListField label="Claims the agent must never make" value={candidate.agent.claimGuardrails} onChange={(value) => update((current) => ({ ...current, agent: { ...current.agent, claimGuardrails: value } }))} />
     <fieldset className="permission-field"><legend>What may an agent do without approval?</legend><div className="permission-grid">{Object.entries(candidate.agent.permissions).map(([key, value]) => <label className="check-row" key={key}><input type="checkbox" checked={value} onChange={(event) => update((current) => ({ ...current, agent: { ...current.agent, permissions: { ...current.agent.permissions, [key]: event.target.checked } } }))} />{key.replace(/([A-Z])/g, ' $1')}</label>)}</div></fieldset>
     <div className="form-grid two"><ListField label="Open questions" value={candidate.onboarding.uncertainties} onChange={(value) => update((current) => ({ ...current, onboarding: { ...current.onboarding, uncertainties: value } }))} /><ListField label="Confirmed decisions" value={candidate.onboarding.decisions} onChange={(value) => update((current) => ({ ...current, onboarding: { ...current.onboarding, decisions: value } }))} /></div>

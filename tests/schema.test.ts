@@ -21,4 +21,5 @@ test('candidate export exposes exactly the public schema top-level fields', () =
   assert.equal(JSON.stringify(exported).includes('dataBase64'), false);
   assert.equal(schema.properties.artifacts.items.properties.embedded.const, false);
   assert.equal(schema.additionalProperties, false);
+  assert.deepEqual(exported.scoringPolicy.priorityLabels, candidate.agent.priorityLabels);
 });

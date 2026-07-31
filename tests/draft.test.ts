@@ -29,6 +29,7 @@ test('migrates a partial legacy draft into the current candidate shape', () => {
   assert.deepEqual(migrated.logistics.workArrangements, ['remote']);
   assert.equal(migrated.agent.priorities.compensation, 100);
   assert.equal(migrated.agent.priorities.flexibility, 0);
+  assert.equal(migrated.agent.priorityLabels.compensation, 'Compensation');
   assert.equal(migrated.agent.permissions.contactPeople, true);
   assert.equal('dataBase64' in migrated.resume.artifacts[0], false);
   assert.equal('unknownPrivateField' in migrated, false);

@@ -117,6 +117,12 @@ export function migrateCandidateDraft(value: unknown): CandidateProfile {
         growth: clamp(priorities.growth, fallback.agent.priorities.growth),
         workLifeBalance: clamp(priorities.workLifeBalance, fallback.agent.priorities.workLifeBalance),
       },
+      priorityLabels: {
+        compensation: asString(asRecord(agent.priorityLabels).compensation, fallback.agent.priorityLabels.compensation).trim() || fallback.agent.priorityLabels.compensation,
+        flexibility: asString(asRecord(agent.priorityLabels).flexibility, fallback.agent.priorityLabels.flexibility).trim() || fallback.agent.priorityLabels.flexibility,
+        growth: asString(asRecord(agent.priorityLabels).growth, fallback.agent.priorityLabels.growth).trim() || fallback.agent.priorityLabels.growth,
+        workLifeBalance: asString(asRecord(agent.priorityLabels).workLifeBalance, fallback.agent.priorityLabels.workLifeBalance).trim() || fallback.agent.priorityLabels.workLifeBalance,
+      },
       resumeMaxPages: enumValue(agent.resumeMaxPages, [1, 2, 3] as const, fallback.agent.resumeMaxPages),
       tone: asString(agent.tone, fallback.agent.tone),
       claimGuardrails: asStringArray(agent.claimGuardrails),

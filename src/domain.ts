@@ -2,6 +2,7 @@ export type ThemeMode = 'dark' | 'light';
 export type WorkArrangement = 'onsite' | 'hybrid' | 'remote';
 export type UnknownBehavior = 'neutral' | 'review' | 'slight-penalty' | 'reject';
 export type ExtractionMode = 'demo' | 'live';
+export type PriorityKey = 'compensation' | 'flexibility' | 'growth' | 'workLifeBalance';
 
 export interface ParsedResume {
   headline: string;
@@ -54,7 +55,8 @@ export interface CandidateProfile {
   };
   agent: {
     rankingObjective: 'best-fit' | 'interview-probability' | 'compensation' | 'career-trajectory' | 'balanced';
-    priorities: { compensation: number; flexibility: number; growth: number; workLifeBalance: number };
+    priorities: Record<PriorityKey, number>;
+    priorityLabels: Record<PriorityKey, string>;
     resumeMaxPages: 1 | 2 | 3;
     tone: string;
     claimGuardrails: string[];
@@ -115,7 +117,9 @@ export function createCandidate(): CandidateProfile {
       currentLocation: '', acceptableLocations: [], workArrangements: ['remote', 'hybrid'], latestShiftEnd: '', unknownBehavior: 'neutral', workAuthorization: '',
     },
     agent: {
-      rankingObjective: 'balanced', priorities: { compensation: 70, flexibility: 80, growth: 75, workLifeBalance: 80 },
+      rankingObjective: 'balanced',
+      priorities: { compensation: 70, flexibility: 80, growth: 75, workLifeBalance: 80 },
+      priorityLabels: { compensation: 'Compensation', flexibility: 'Flexibility', growth: 'Growth', workLifeBalance: 'Work-life balance' },
       resumeMaxPages: 2, tone: 'Direct, specific, and credible', claimGuardrails: [],
       permissions: { retrieveJobs: true, scoreJobs: true, draftPackages: true, modifyFiles: false, contactPeople: false, submitApplications: false }, notes: '',
     },
@@ -185,7 +189,7 @@ export function buildCandidateExport(candidate: CandidateProfile) {
       workArrangements: candidate.logistics.workArrangements, latestShiftEnd: candidate.logistics.latestShiftEnd,
       unknownBehavior: candidate.logistics.unknownBehavior, workAuthorization: candidate.logistics.workAuthorization,
     },
-    scoringPolicy: { rankingObjective: candidate.agent.rankingObjective, priorities: candidate.agent.priorities, hardFiltersApplyBeforeScoring: true },
+    scoringPolicy: { rankingObjective: candidate.agent.rankingObjective, priorities: candidate.agent.priorities, priorityLabels: candidate.agent.priorityLabels, hardFiltersApplyBeforeScoring: true },
     packagePolicy: { resumeMaxPages: candidate.agent.resumeMaxPages, tone: candidate.agent.tone, claimGuardrails: candidate.agent.claimGuardrails },
     authorizationPolicy: candidate.agent.permissions,
     onboarding: candidate.onboarding,
