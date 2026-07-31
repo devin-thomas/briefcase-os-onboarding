@@ -9,6 +9,7 @@ const STEPS = ['Interface & basics', 'Resume', 'Career targets', 'Locations & re
 const DRAFT_KEY = 'briefcaseos.demo.candidate-draft.v1';
 const STEP_KEY = 'briefcaseos.demo.onboarding-step.v1';
 const PREF_KEY = 'briefcaseos.demo.preferences.v1';
+const PORTFOLIO_URL = 'https://devthomas.site/';
 const accents = [{ name: 'Outlook blue', value: '#2f80ed' }, { name: 'Cyan', value: '#18a6b8' }, { name: 'Verdant', value: '#2e9b72' }, { name: 'Coral', value: '#e1654f' }, { name: 'Amber', value: '#d8952d' }];
 
 type StepProps = { candidate: CandidateProfile; update: (recipe: (current: CandidateProfile) => CandidateProfile) => void };
@@ -98,7 +99,7 @@ export default function App() {
 }
 
 function BrandHeader({ candidate, update, savedAt, clearLocalData }: StepProps & { savedAt: string; clearLocalData: () => void }) {
-  return <header className="brand-header"><a className="brand" href="/"><span><BriefcaseBusiness /></span>BriefcaseOS</a><div className="header-tools"><p><Save />{savedAt ? `Saved ${savedAt}` : 'Saving locally'}</p><div className="quick-theme"><button aria-label="Use light theme" className={candidate.interface.theme === 'light' ? 'selected' : ''} onClick={() => update((current) => ({ ...current, interface: { ...current.interface, theme: 'light' } }))}><Sun /></button><button aria-label="Use dark theme" className={candidate.interface.theme === 'dark' ? 'selected' : ''} onClick={() => update((current) => ({ ...current, interface: { ...current.interface, theme: 'dark' } }))}><Moon /></button></div><button className="clear-button" onClick={clearLocalData}><Trash2 />Clear local data</button></div></header>;
+  return <header className="brand-header"><a className="brand" href="/"><span><BriefcaseBusiness /></span>BriefcaseOS</a><div className="header-tools"><a className="portfolio-link" href={PORTFOLIO_URL} target="_blank" rel="noreferrer">Devin Thomas portfolio <ArrowRight /></a><p><Save />{savedAt ? `Saved ${savedAt}` : 'Saving locally'}</p><div className="quick-theme"><button aria-label="Use light theme" className={candidate.interface.theme === 'light' ? 'selected' : ''} onClick={() => update((current) => ({ ...current, interface: { ...current.interface, theme: 'light' } }))}><Sun /></button><button aria-label="Use dark theme" className={candidate.interface.theme === 'dark' ? 'selected' : ''} onClick={() => update((current) => ({ ...current, interface: { ...current.interface, theme: 'dark' } }))}><Moon /></button></div><button className="clear-button" onClick={clearLocalData}><Trash2 />Clear local data</button></div></header>;
 }
 
 function CandidateSignal({ candidate }: { candidate: CandidateProfile }) {
