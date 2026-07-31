@@ -2,6 +2,8 @@
 
 A resume-first candidate intake that converts career evidence, constraints, ranking preferences, and agent guardrails into portable JSON and YAML.
 
+Live demo: https://briefcase.devthomas.site
+
 > This public project was rebuilt with fresh history. Private infrastructure, credentials, personal candidate fixtures, and internal deployment material are intentionally excluded.
 
 ![BriefcaseOS onboarding workspace](docs/images/onboarding-entry.png)
@@ -48,7 +50,7 @@ Browser UI
               └─ optional Gemini provider (server environment only)
 ```
 
-The public baseline uses a generic Node and Express runtime. Provider configuration never enters candidate exports, and the browser never receives an API key.
+The local development baseline uses Node and Express. Production runs the Vite assets on Cloudflare Pages with Pages Functions for the provider-neutral API. Provider configuration never enters candidate exports, and the browser never receives an API key.
 
 ## Run locally
 

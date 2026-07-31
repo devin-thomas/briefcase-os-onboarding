@@ -11,6 +11,7 @@ This repository is a portfolio demonstration and reference implementation. The d
 - Store optional live-provider credentials only in the local environment or the deployment platform's secret manager.
 - Rotate a credential immediately when exposure is suspected.
 - The public demo does not require an API key.
+- Production endpoint: `POST https://briefcase.devthomas.site/api/parse-resume`. Deterministic mode is the default; live mode requires explicit consent and server-side controls.
 
 ## Data handling
 

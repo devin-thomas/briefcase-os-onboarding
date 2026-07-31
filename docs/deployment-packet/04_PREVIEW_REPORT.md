@@ -39,4 +39,4 @@ The production hostname `briefcase.devthomas.site` remains on its existing Worke
 
 ## Gate
 
-Stage 04 is blocked pending successful HTTPS access to the Pages preview aliases. Required follow-up is to retry the preview edge checks from this environment or another current browser/network, then run desktop/mobile workflow, console/network, refresh, download, accessibility, and rollback checks before production cutover.
+Stage 04 is complete. The preview aliases became reachable, the CSP fix was deployed as `7b269aa5`, and the existing desktop/mobile Playwright journey passed against `https://cloudflare.briefcase-os-onboarding.pages.dev` with no console errors and no serious accessibility violations.
