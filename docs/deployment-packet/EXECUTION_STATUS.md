@@ -15,7 +15,7 @@
 | 01 Baseline and safety | Complete | pending | `01_BASELINE_REPORT.md`; verify, E2E, licenses, and public audit passed |
 | 02 Runtime decomposition | Complete | pending | `02_RUNTIME_MAP.md`; shared service and Express parity tests pass |
 | 03 Cloudflare adapter | Complete | pending | `03_CLOUDFLARE_ADAPTER_REPORT.md`; local Wrangler route checks pass |
-| 04 Local and preview validation | In progress | | Local Pages runtime passes; preview project/deployment pending |
+| 04 Local and preview validation | Blocked | pending | Local Pages runtime passes; preview `7cd0b289` deployed with Functions, but pages.dev HTTPS handshake fails from this workstation |
 | 05 Gemini live mode | Not started | | |
 | 06 Production release | Not started | | Existing target is Worker-backed; no production cutover performed |
 | 07 Portfolio integration | Not started | | |
