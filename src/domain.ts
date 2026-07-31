@@ -166,6 +166,56 @@ export const SAMPLE_EXTRACTION: ResumeExtractionResult = {
   metadata: { mode: 'demo', source: 'sample', warnings: ['Fictional sample data for portfolio demonstration.'] },
 };
 
+export function fillSampleCandidate(candidate: CandidateProfile): CandidateProfile {
+  return {
+    ...candidate,
+    identity: { name: 'Jordan Lee', email: 'jordan.lee@example.test', phone: '312-555-0142' },
+    professionalLinks: {
+      linkedIn: 'https://example.test/jordan-lee/linkedin',
+      github: 'https://example.test/jordan-lee/github',
+      portfolio: 'https://example.test/jordan-lee/portfolio',
+    },
+    resume: {
+      sourceText: SAMPLE_RESUME,
+      artifacts: [],
+      parsed: SAMPLE_EXTRACTION.parsed,
+      status: 'complete',
+      message: 'Fictional sample data loaded across all five onboarding steps.',
+    },
+    career: {
+      primaryRoleFamilies: ['Technical Support Engineer', 'Product Support Specialist', 'Support Operations Analyst'],
+      bridgeRoleFamilies: ['Implementation Specialist', 'Customer Success Operations Analyst'],
+      excludedRoleFamilies: ['Commission-only sales', 'Unpaid internships'],
+      desiredResponsibilities: ['Investigate customer-reported issues', 'Improve support workflows', 'Translate evidence into product feedback', 'Build practical enablement resources'],
+      avoidedResponsibilities: ['Cold-call prospecting', 'Roles without a defined customer or product outcome'],
+      minimumBaseAnnual: 85000,
+    },
+    logistics: {
+      currentLocation: 'Chicago, IL',
+      acceptableLocations: ['Chicago, IL', 'Remote within the United States'],
+      workArrangements: ['remote', 'hybrid'],
+      latestShiftEnd: '18:00',
+      unknownBehavior: 'review',
+      workAuthorization: 'Authorized to work in the United States without sponsorship',
+    },
+    agent: {
+      rankingObjective: 'balanced',
+      priorities: { compensation: 70, flexibility: 80, growth: 75, workLifeBalance: 80 },
+      priorityLabels: { compensation: 'Compensation', flexibility: 'Flexibility', growth: 'Growth', workLifeBalance: 'Work-life balance' },
+      resumeMaxPages: 2,
+      tone: 'Direct, specific, credible, and grounded in verified evidence',
+      claimGuardrails: ['Do not invent metrics, credentials, employers, or responsibilities', 'Do not imply authority to contact people or submit applications'],
+      permissions: { retrieveJobs: true, scoreJobs: true, draftPackages: true, modifyFiles: false, contactPeople: false, submitApplications: false },
+      notes: 'Prioritize roles that combine customer evidence, technical investigation, workflow improvement, and practical enablement.',
+    },
+    onboarding: {
+      uncertainties: ['Confirm compensation flexibility for an unusually strong role', 'Review relocation requests outside Chicago before scoring'],
+      decisions: ['Prefer remote or Chicago-area hybrid work', 'Require approval before external contact or application submission'],
+      status: 'in-progress',
+    },
+  };
+}
+
 export function buildCandidateExport(candidate: CandidateProfile) {
   return {
     $schema: './candidate.schema.json', schemaVersion: candidate.schemaVersion, id: candidate.id,

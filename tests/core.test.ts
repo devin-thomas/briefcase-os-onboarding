@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { buildCandidateExport, createCandidate } from '../src/domain';
+import { buildCandidateExport, createCandidate, fillSampleCandidate } from '../src/domain';
 import { DemoResumeProvider } from '../server/providers';
 
 test('deterministic sample extraction is stable and fictional', async () => {
@@ -23,6 +23,20 @@ test('candidate export strips source text and provider configuration', () => {
   assert.ok(!serialized.includes('GEMINI'));
   assert.ok(!serialized.includes(retiredProviderName));
   assert.ok(!('interface' in exported));
+});
+
+test('fictional sample fills every onboarding section without granting consequential permissions', () => {
+  const candidate = fillSampleCandidate(createCandidate());
+  assert.equal(candidate.identity.name, 'Jordan Lee');
+  assert.ok(candidate.professionalLinks.portfolio);
+  assert.equal(candidate.resume.status, 'complete');
+  assert.ok(candidate.career.primaryRoleFamilies.length >= 3);
+  assert.ok(candidate.career.desiredResponsibilities.length >= 3);
+  assert.ok(candidate.logistics.acceptableLocations.length >= 2);
+  assert.ok(candidate.agent.claimGuardrails.length >= 2);
+  assert.ok(candidate.onboarding.decisions.length >= 2);
+  assert.equal(candidate.agent.permissions.contactPeople, false);
+  assert.equal(candidate.agent.permissions.submitApplications, false);
 });
 
 test('conservative demo extraction does not invent experience', async () => {
