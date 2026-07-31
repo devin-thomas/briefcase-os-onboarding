@@ -6,7 +6,7 @@
 - Production branch setting: `main`
 - Preview branch: `cloudflare`
 - Preview deployment: `7cd0b289-4355-4e5d-bc65-c594332049b0`
-- Preview aliases reported by Cloudflare: `https://7cd0b289.briefcase-os-onboarding.pages.dev` and `https://cloudflare.briefcase-os-onboarding.pages.dev`
+- Preview aliases reported by Cloudflare: `https://927cdb97.briefcase-os-onboarding.pages.dev` and `https://cloudflare.briefcase-os-onboarding.pages.dev`
 - Deployment source commit: `067bb33ae6e2b2b41b847dbf1623fc04eef6c1bd`
 - Functions included: yes, according to the Pages deployment record
 - Gemini state: disabled; preview environment has deterministic variables only and no key
@@ -39,4 +39,4 @@ The production hostname `briefcase.devthomas.site` remains on its existing Worke
 
 ## Gate
 
-Stage 04 is complete. The preview aliases became reachable, the CSP fix was deployed as `7b269aa5`, and the existing desktop/mobile Playwright journey passed against `https://cloudflare.briefcase-os-onboarding.pages.dev` with no console errors and no serious accessibility violations.
+Stage 04 is complete. The preview aliases became reachable, the final CSP fix was deployed as `927cdb97`, and the existing desktop/mobile Playwright journey passed against `https://cloudflare.briefcase-os-onboarding.pages.dev` with no console errors and no serious accessibility violations.

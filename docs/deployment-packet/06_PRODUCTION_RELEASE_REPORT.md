@@ -2,8 +2,8 @@
 
 - Production URL: `https://briefcase.devthomas.site`
 - Pages project: `briefcase-os-onboarding`
-- Production deployment: `129eaefe-99f1-4e2c-9105-d36635874e13`
-- Production artifact commit: `191d736d06b58e628d2af4f5849e9bfdbfd5210f`
+- Production deployment: `fe1c92fa-11af-4f6e-9b36-874ac4a898df`
+- Production artifact commit: `62f5ba6163c6cecfb0680d550535bebf6d47a761`
 - Custom-domain status: active
 - Certificate status: active; Pages validation reports active
 - DNS: proxied CNAME `briefcase.devthomas.site` -> `briefcase-os-onboarding.pages.dev`
@@ -20,7 +20,7 @@
 - Unsupported content type: `415`
 - Candidate schema: `200`
 - Referenced JavaScript/CSS assets: `200`
-- Security headers: CSP, `nosniff`, `DENY` framing, and no-referrer present
+- Security headers: CSP compatible with Cloudflare edge scripts, `nosniff`, `DENY` framing, and no-referrer present
 - Desktop Playwright journey: passed
 - Mobile Playwright journey: passed
 - Accessibility: no serious or critical violations in the journey
@@ -33,4 +33,4 @@
 
 ## Rollback
 
-The last known-good Pages deployment is `129eaefe`. Use the Pages deployment rollback action for `briefcase-os-onboarding`, then verify the custom domain and deterministic API before considering Gemini enablement.
+The last known-good Pages deployment is `fe1c92fa`. Use the Pages deployment rollback action for `briefcase-os-onboarding`, then verify the custom domain and deterministic API before considering Gemini enablement.

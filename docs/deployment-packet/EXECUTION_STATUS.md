@@ -15,9 +15,9 @@
 | 01 Baseline and safety | Complete | pending | `01_BASELINE_REPORT.md`; verify, E2E, licenses, and public audit passed |
 | 02 Runtime decomposition | Complete | pending | `02_RUNTIME_MAP.md`; shared service and Express parity tests pass |
 | 03 Cloudflare adapter | Complete | pending | `03_CLOUDFLARE_ADAPTER_REPORT.md`; local Wrangler route checks pass |
-| 04 Local and preview validation | Complete | `191d736` | Preview `7b269aa5` passed desktop/mobile E2E, accessibility, console, and deterministic API checks |
+| 04 Local and preview validation | Complete | `62f5ba6` | Preview `927cdb97` passed desktop/mobile E2E, accessibility, console, and deterministic API checks |
 | 05 Gemini live mode | Not started | | |
-| 06 Production release | Complete | `191d736` | `06_PRODUCTION_RELEASE_REPORT.md`; domain and certificate active, production smoke matrix passed |
+| 06 Production release | Complete | `62f5ba6` | `06_PRODUCTION_RELEASE_REPORT.md`; deployment `fe1c92fa`, domain/certificate active, production smoke matrix passed |
 | 07 Portfolio integration | Not started | | |
 | 08 Operations and rollback | Not started | | |
 | 09 Final acceptance | Not started | | |
