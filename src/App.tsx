@@ -89,7 +89,7 @@ export default function App() {
     })}</nav>
     {storageWarning ? <div className="global-note" role="status">{storageWarning}</div> : null}
     <div className="wizard-layout"><main className="wizard-main">
-      <AnimatePresence mode="wait"><motion.div key={step} initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: .22 }}>{panels[step - 1]}</motion.div></AnimatePresence>
+      <AnimatePresence mode="wait"><motion.div key={step} initial={{ x: 22 }} animate={{ x: 0 }} exit={{ x: -16 }} transition={{ duration: .22 }}>{panels[step - 1]}</motion.div></AnimatePresence>
       <footer className="step-actions"><button className="back-action" disabled={step === 1} onClick={() => setStep(step - 1)}><ArrowLeft />Back</button><span>{step} of 5</span><button className="primary-action" disabled={candidate.resume.status === 'parsing'} onClick={() => {
         if (step === 5) update((current) => ({ ...current, onboarding: { ...current.onboarding, status: 'ready-for-review' } }));
         setStep(step + 1);
@@ -169,7 +169,7 @@ function ResumeStep({ candidate, update, capabilities }: StepProps & { capabilit
   };
   const live = capabilities.resumeExtraction.mode === 'live';
   return <section className="step-content"><Heading n="02" title="Start with evidence." text="Review the loaded sample evidence, or replace it with your own résumé text." />
-    {live ? <label className="consent-row"><input type="checkbox" checked={consented} onChange={(event) => setConsented(event.target.checked)} />I understand that submitted resume content will be sent to the configured server and {capabilities.resumeExtraction.processorLabel} for processing.</label> : null}
+    {live ? <label className="consent-row"><input type="checkbox" checked={consented} onChange={(event) => setConsented(event.target.checked)} />I understand that submitted resume content will be sent to the configured server and {capabilities.resumeExtraction.processorLabel} for processing. I will use only fictional or fully redacted content in this public lab.</label> : null}
     <label className="full-field">Resume text<textarea rows={10} placeholder="Paste a resume or rough career history…" value={candidate.resume.sourceText} onChange={(event) => update((current) => ({ ...current, resume: { ...current.resume, sourceText: event.target.value } }))} /></label>
     <div className="resume-actions"><button className="secondary-action" disabled={!candidate.resume.sourceText.trim() || (live && !consented)} onClick={() => void run({ typedResume: candidate.resume.sourceText, artifacts: [] })}>{candidate.resume.status === 'parsing' ? 'Extracting…' : 'Extract details'}</button><button className="secondary-action" disabled={(live && !consented) || !capabilities.resumeExtraction.supports.includes('application/pdf')} onClick={() => fileRef.current?.click()}><Upload />Upload PDF</button><input ref={fileRef} hidden type="file" accept=".pdf,.txt,.md" onChange={(event) => void pickFile(event.target.files?.[0])} /></div>
     {candidate.resume.status !== 'idle' ? <div className={`parse-status ${candidate.resume.status}`} role="status"><span /><div><strong>{candidate.resume.status === 'complete' ? 'Review what we found' : candidate.resume.status === 'error' ? 'Extraction needs attention' : 'Reading candidate evidence'}</strong><p>{candidate.resume.message}</p></div></div> : null}

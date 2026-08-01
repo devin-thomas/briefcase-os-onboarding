@@ -52,3 +52,25 @@ test('live provider adds review metadata to valid structured output', async () =
     assert.match(result.metadata.warnings[0], /Review/);
   });
 });
+
+test('live provider requests the documented candidate JSON schema', async () => {
+  const output = {
+    identity: { name: 'Morgan Rivera', email: '', phone: '' },
+    currentLocation: '',
+    parsed: { headline: '', summary: '', skills: [], experience: [], education: [], inferredTitles: [], sourceConfidence: 'low' },
+  };
+  const original = globalThis.fetch;
+  globalThis.fetch = async (_input, init) => {
+    const requestBody = JSON.parse(String(init?.body)) as { generationConfig?: { responseMimeType?: string; responseJsonSchema?: { required?: string[]; properties?: Record<string, unknown> } } };
+    assert.equal(init?.headers && (init.headers as Record<string, string>)['x-goog-api-key'], 'test-key-not-real');
+    assert.equal(requestBody.generationConfig?.responseMimeType, 'application/json');
+    assert.deepEqual(requestBody.generationConfig?.responseJsonSchema?.required, ['identity', 'currentLocation', 'parsed']);
+    assert.ok(requestBody.generationConfig?.responseJsonSchema?.properties?.parsed);
+    return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify(output) }] } }] }), { status: 200 });
+  };
+  try {
+    await new GeminiResumeProvider('test-key-not-real', 'gemini-2.5-flash').extract(request);
+  } finally {
+    globalThis.fetch = original;
+  }
+});

@@ -3,8 +3,8 @@ compatibility_date = "2026-07-31"
 pages_build_output_dir = "./dist"
 
 [vars]
-EXTRACTION_PROVIDER = "demo"
-ENABLE_LIVE_EXTRACTION = "false"
+EXTRACTION_PROVIDER = "gemini"
+ENABLE_LIVE_EXTRACTION = "true"
 GEMINI_MODEL = "gemini-2.5-flash"
 MAX_UPLOAD_BYTES = "8388608"
 LIVE_EXTRACTION_TIMEOUT_MS = "25000"
